@@ -20,6 +20,19 @@ app.get('/weather/:city', async (req, res) => {
   }
 });
 
+app.get('/cities', async (req, res) => {
+  try {
+    const response = await axios.get(`https://api.meteo.lt/v1/places/`);
+  
+    const cityNames = response.data.map(place => place.name);
+    
+    res.json(cityNames);
+  } catch (error) {
+    console.error('Error fetching cities:', error);
+    res.status(500).json({ error: 'Failed to fetch city names' });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

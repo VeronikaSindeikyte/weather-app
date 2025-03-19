@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import SearchBar from './SearchBar'
+import SearchBar from './searchTools/SearchBar'
 import WeatherDisplay from './WeatherDisplay'
+import DropdownMenu from './searchTools/dropdownMenu'
+import ThreeCitiesSelect from './searchTools/threeCitiesSelect';
 
 
 function WeatherApp() {
@@ -31,11 +33,12 @@ function WeatherApp() {
   };
 
   return (
-    <div className="card mb-3 weather-app">
+    <div className="card mb-3 d-flex justify-content-center p-3 text-center weather-app">
       <h1>Weather App</h1>
       <h2>Please enter your city to see the forecast:</h2>
-      <SearchBar onSearch={fetchWeather} />
-      
+      <SearchBar onSearch={fetchWeather}/>
+      <DropdownMenu onSearch={fetchWeather}/>
+      <ThreeCitiesSelect onSearch={fetchWeather}/>
       {loading && <div className="loading">Loading...</div>}
       {error && <div className="error">{error}</div>}
       
