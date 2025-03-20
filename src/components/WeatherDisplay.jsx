@@ -19,7 +19,8 @@ function WeatherDisplay({ data }) {
     snow: <FaSnowflake size={30} color="lightblue" />, 
     fog: <FaSmog size={30} color="darkgray" />,
     "partly-cloudy": <FaCloudSun size={30} color="orange" />,
-    "cloudy-with-sunny-intervals": <FaCloudSunRain size={30} color="lightgray" />
+    "cloudy-with-sunny-intervals": <FaCloudSunRain size={30} color="lightgray" />,
+    // "light-rain": <FaRain size={30} color="lightgray" />
   };
 
   const processedData = {};
@@ -114,6 +115,7 @@ function WeatherDisplay({ data }) {
                         <>
                           <h3 className="card-text text-primary">{periodData.avgTemperature}°C</h3>
                           <p className="card-text">{conditionIcons[periodData.conditionCode] || periodData.conditionCode}</p>
+                          <p className="card-text">{periodData.conditionCode}</p>
                           <p className="card-text">Humidity: {periodData.relativeHumidity}%</p>
                           <p className="card-text">Wind speed: {periodData.windSpeed} m/s</p>
                         </>

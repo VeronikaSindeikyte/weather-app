@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-function SearchBar({ onSearch }) {
+function SearchBar({ onSearch, fetchSelectedCity, selectedCity, setSelectedCity }) {
   const [city, setCity] = useState('');
   const [cities, setCities] = useState([]);
   const [searchFilteredCities, setSearchFilteredCities] = useState([]);
@@ -8,6 +8,7 @@ function SearchBar({ onSearch }) {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isUserTyping, setIsUserTyping] = useState(false);
   
   const searchDropdownRef = useRef(null);
   const inputRef = useRef(null);
@@ -19,46 +20,60 @@ function SearchBar({ onSearch }) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  
+
   useEffect(() => {
-    if (city.trim() === '') {
+    if (selectedCity) {
+      setCity(selectedCity);
+      setShowSearchDropdown(false);
+      setIsUserTyping(false);
+    }
+  }, [selectedCity]);
+
+  useEffect(() => {
+    if (!isUserTyping || city.trim() === '') {
       setSearchFilteredCities([]);
       setShowSearchDropdown(false);
-    } else {
-      const filtered = cities.filter(cityItem => {
-        return cityItem.toLowerCase().startsWith(city.toLowerCase());
-      });
-      setSearchFilteredCities(filtered);
-      setShowSearchDropdown(true);
+      return;
     }
-    
+
+    const filtered = cities.filter(cityItem => cityItem.toLowerCase().startsWith(city.toLowerCase()));
+    setSearchFilteredCities(filtered);
+    setShowSearchDropdown(true);
     setActiveIndex(-1);
-  }, [city, cities]);
+  }, [city, cities, isUserTyping]);
 
   const handleClickOutside = (event) => {
-    if (searchDropdownRef.current && !searchDropdownRef.current.contains(event.target) &&
-        inputRef.current && !inputRef.current.contains(event.target)) {
+    if (
+      searchDropdownRef.current && !searchDropdownRef.current.contains(event.target) &&
+      inputRef.current && !inputRef.current.contains(event.target)
+    ) {
       setShowSearchDropdown(false);
     }
   };
 
   const handleSearch = () => {
     if (city.trim()) {
+      setSelectedCity(city);
       onSearch(city);
+      fetchSelectedCity(city);
       setShowSearchDropdown(false);
+      setIsUserTyping(false);
     }
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       if (activeIndex >= 0 && activeIndex < searchFilteredCities.length) {
-        const selectedCity = searchFilteredCities[activeIndex];
-        setCity(selectedCity);
-        onSearch(selectedCity);
+        const selected = searchFilteredCities[activeIndex];
+        setCity(selected);
+        setSelectedCity(selected);
+        onSearch(selected);
+        fetchSelectedCity(selected);
       } else {
         handleSearch();
       }
       setShowSearchDropdown(false);
+      setIsUserTyping(false);
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       setActiveIndex(prev => (prev < searchFilteredCities.length - 1 ? prev + 1 : prev));
@@ -71,24 +86,34 @@ function SearchBar({ onSearch }) {
   };
 
   const handleInputChange = (e) => {
+    setIsUserTyping(true);
     setCity(e.target.value);
   };
 
   const handleDropdownSelect = (selectedCity) => {
     setCity(selectedCity);
+    setSelectedCity(selectedCity);
     onSearch(selectedCity);
+    fetchSelectedCity(selectedCity);
     setShowSearchDropdown(false);
+    setIsUserTyping(false);
+  };
+
+  const handleFocus = () => {
+    if (isUserTyping && city.trim() !== '') {
+      setShowSearchDropdown(true);
+    }
   };
 
   const fetchCities = async () => {
     setLoading(true);
     try {
       const response = await fetch('http://localhost:3000/cities');
-      
+
       if (!response.ok) {
         throw new Error('No cities found.');
       }
-      
+
       const data = await response.json();
       setCities(data);
       setError(null);
@@ -111,6 +136,7 @@ function SearchBar({ onSearch }) {
           value={city}
           onChange={handleInputChange}
           onKeyDown={handleKeyPress}
+          onFocus={handleFocus}
           autoComplete="off"
         />
         <button className="btn btn-secondary my-2 my-sm-0" onClick={handleSearch}>
@@ -135,11 +161,11 @@ function SearchBar({ onSearch }) {
             ></path>
           </svg>
         </button>
-        
+
         {showSearchDropdown && city.trim() !== '' && (
-          <div 
+          <div
             ref={searchDropdownRef}
-            className="dropdown-menu show w-100 position-absolute" 
+            className="dropdown-menu show w-100 position-absolute"
             style={{ top: '100%', left: 0 }}
           >
             {loading ? (
@@ -150,7 +176,7 @@ function SearchBar({ onSearch }) {
               <li><span className="dropdown-item">No matching cities</span></li>
             ) : (
               searchFilteredCities.map((cityItem, index) => (
-                <button 
+                <button
                   key={index}
                   className={`dropdown-item ${index === activeIndex ? 'active' : ''}`}
                   onClick={() => handleDropdownSelect(cityItem)}

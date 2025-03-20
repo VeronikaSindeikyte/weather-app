@@ -1,0 +1,33 @@
+.weather-app {
+    .mb-4 {
+      margin-bottom: 1.5rem;
+    }
+  
+    .loading {
+      font-size: 1.2rem;
+      color: #ff9800;
+    }
+  
+    .error {
+      font-size: 1.2rem;
+      color: #f44336;
+    }
+  
+    .d-flex {
+      justify-content: center;
+      text-align: center;
+    }
+  
+    .search-tools {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px; 
+    }
+  
+    .search-bar-container {
+      width: 50%;
+      max-width: 400px;
+    }
+  }

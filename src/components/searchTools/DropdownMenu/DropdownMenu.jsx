@@ -1,90 +1,90 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react'
 
-const DropdownMenu = ({ onSearch }) => {
-    const [city, setCity] = useState('');
-    const [cities, setCities] = useState([]);
-    const [filteredCities, setFilteredCities] = useState([]);
-    const [showCityDropdown, setShowCityDropdown] = useState(false);
-    const [dropdownFilter, setDropdownFilter] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+const DropdownMenu = ({ onSearch, fetchSelectedCity, selectedCity, setSelectedCity }) => {
+    const [cities, setCities] = useState([])
+    const [filteredCities, setFilteredCities] = useState([])
+    const [showCityDropdown, setShowCityDropdown] = useState(false)
+    const [dropdownFilter, setDropdownFilter] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
 
-    const cityDropdownRef = useRef(null);
+    const cityDropdownRef = useRef(null)
 
     useEffect(() => {
         fetchCities();
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside)
         return () => {
-          document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+          document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
 
     useEffect(() => {
         if (dropdownFilter.trim() === '') {
-            setFilteredCities(cities);
+            setFilteredCities(cities)
         } else {
             const filtered = cities.filter(cityItem => {
-                return cityItem.toLowerCase().startsWith(dropdownFilter.toLowerCase());
-            });
-            setFilteredCities(filtered);
+                return cityItem.toLowerCase().startsWith(dropdownFilter.toLowerCase())
+            })
+            setFilteredCities(filtered)
         }
-    }, [dropdownFilter, cities]);
+    }, [dropdownFilter, cities])
 
     const handleClickOutside = (event) => {
         if (cityDropdownRef.current && !cityDropdownRef.current.contains(event.target)) {
-            setShowCityDropdown(false);
+            setShowCityDropdown(false)
         }
     };
 
     const fetchCities = async () => {
-        setLoading(true);
+        setLoading(true)
         try {
-            const response = await fetch('http://localhost:3000/cities');
+            const response = await fetch('http://localhost:3000/cities')
             
             if (!response.ok) {
-                throw new Error('No cities found.');
+                throw new Error('No cities found.')
             }
             
-            const data = await response.json();
-            setCities(data);
-            setFilteredCities(data);
-            setError(null);
+            const data = await response.json()
+            setCities(data)
+            setFilteredCities(data)
+            setError(null)
         } catch (error) {
-            console.error('Error fetching cities:', error);
-            setError(error.message);
+            console.error('Error fetching cities:', error)
+            setError(error.message)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     const handleDropdownToggle = () => {
-        setShowCityDropdown(!showCityDropdown);
-        setDropdownFilter('');
+        setShowCityDropdown(!showCityDropdown)
+        setDropdownFilter('')
         if (!showCityDropdown) {
             setTimeout(() => {
                 if (cityDropdownRef.current) {
-                    cityDropdownRef.current.focus();
+                    cityDropdownRef.current.focus()
                 }
-            }, 100);
+            }, 100)
         }
     };
 
     const handleDropdownKeyPress = (e) => {
         if (e.key.length === 1 && e.key.match(/[a-z]/i)) {
-            setDropdownFilter(prev => prev + e.key);
+            setDropdownFilter(prev => prev + e.key)
         } else if (e.key === 'Backspace') {
-            setDropdownFilter(prev => prev.slice(0, -1));
+            setDropdownFilter(prev => prev.slice(0, -1))
         } else if (e.key === 'Escape') {
-            setShowCityDropdown(false);
-            setDropdownFilter('');
+            setShowCityDropdown(false)
+            setDropdownFilter('')
         }
     };
 
-    const handleDropdownSelect = (selectedCity) => {
-        setCity(selectedCity);
-        onSearch(selectedCity);
-        setShowCityDropdown(false);
-        setDropdownFilter('');
+    const handleDropdownSelect = (cityItem) => {
+        setSelectedCity(cityItem)
+        onSearch(cityItem)
+        fetchSelectedCity(cityItem)
+        setShowCityDropdown(false)
+        setDropdownFilter('')
     };
 
     return (
@@ -95,7 +95,7 @@ const DropdownMenu = ({ onSearch }) => {
                     type="button"
                     onClick={handleDropdownToggle}
                 >
-                    {city || 'Select City'}
+                    {selectedCity || 'Select City'}
                 </button>
 
 
@@ -113,6 +113,7 @@ const DropdownMenu = ({ onSearch }) => {
                                 <button
                                     className="btn btn-sm btn-link p-0 float-end"
                                     onClick={() => setDropdownFilter('')}
+                                    
                                 >
                                     Clear
                                 </button>
@@ -130,7 +131,7 @@ const DropdownMenu = ({ onSearch }) => {
                                 {filteredCities.map((cityItem, index) => (
                                     <button
                                         key={index}
-                                        className="dropdown-item"
+                                        className={`dropdown-item ${cityItem === selectedCity ? 'active' : ''}`}
                                         onClick={() => handleDropdownSelect(cityItem)}
                                     >
                                         {cityItem}
