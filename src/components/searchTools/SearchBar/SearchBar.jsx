@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import "./SearchBar.styles.scss"
 
 function SearchBar({ onSearch, fetchSelectedCity, selectedCity, setSelectedCity }) {
   const [city, setCity] = useState('');
@@ -126,8 +127,8 @@ function SearchBar({ onSearch, fetchSelectedCity, selectedCity, setSelectedCity 
   };
 
   return (
-    <div>
-      <div className="d-flex search position-relative">
+    <div className='search-bar-and-icon'>
+      <div className="d-flex search position-relative search-bar-and-icon">
         <input
           ref={inputRef}
           type="text"

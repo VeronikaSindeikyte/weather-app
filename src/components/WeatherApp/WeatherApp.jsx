@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import SearchBar from './searchTools/SearchBar/SearchBar';
-import WeatherDisplay from './WeatherDisplay';
-import DropdownMenu from './searchTools/DropdownMenu/DropdownMenu';
-import ThreeCitiesSelect from './searchTools/ThreeCitiesSelect/ThreeCitiesSelect';
+import SearchBar from '../searchTools/SearchBar/SearchBar';
+import WeatherDisplay from '../WeatherDisplay/WeatherDisplay';
+import DropdownMenu from '../searchTools/DropdownMenu/DropdownMenu';
+import ThreeCitiesSelect from '../searchTools/ThreeCitiesSelect/ThreeCitiesSelect';
 import './WeatherApp.styles.scss'
 
 function WeatherApp() {
@@ -72,9 +72,9 @@ function WeatherApp() {
   };
 
   return (
-    <div className="card mb-3 p-3 text-center weather-app">
-      <h1 className="mb-4">Weather App</h1>
-      <h2 className="mb-4">Please enter your city to see the forecast:</h2>
+    <div className="card mb-3 p-3 text-center  weather-app">
+      <h1 className="m-4 text-primary-emphasis">Weather App</h1>
+      <h3 className="m-4">Please enter your city to see the forecast:</h3>
       <div className="d-flex justify-content-center mb-4">
         <SearchBar 
           onSearch={handleCitySelection} 
@@ -94,7 +94,8 @@ function WeatherApp() {
             setSelectedCity={setSelectedCity}
           />
       </div>
-      {loading && <div className="loading">Loading...</div>}
+
+      {loading && <div className="loading">Loading weather forecast...</div>}
       {error && <div className="error">{error}</div>}
       
       {weatherData && <WeatherDisplay data={weatherData} />}
