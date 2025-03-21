@@ -1,11 +1,20 @@
 .weather-app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
     .mb-4 {
       margin-bottom: 1.5rem;
     }
   
     .loading {
+      justify-content: center;
+      align-items: center;
       font-size: 1.2rem;
-      color: #ff9800;
+      width: 70%;
+ 
     }
   
     .error {
@@ -24,10 +33,12 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 15px; 
+      width: 70%;
     }
   
     .search-bar-container {
       width: 50%;
       max-width: 400px;
     }
-  }
+
+}

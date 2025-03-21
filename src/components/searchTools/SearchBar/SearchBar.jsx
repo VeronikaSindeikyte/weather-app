@@ -127,7 +127,7 @@ function SearchBar({ onSearch, fetchSelectedCity, selectedCity, setSelectedCity 
   };
 
   return (
-    <div className='search-bar-and-icon'>
+    <div className='search-bar-tool'>
       <div className="d-flex search position-relative search-bar-and-icon">
         <input
           ref={inputRef}
