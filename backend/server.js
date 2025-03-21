@@ -53,8 +53,8 @@ app.post('/api/log-city-selection', async (req, res) => {
   try {
     const newSelection = new CitySelection({ city });
     await newSelection.save();
-    
-    console.log(`✅ City selection saved: ${newSelection.city} at time ${newSelection.timestamp}`);
+
+    console.log(`✅ City selection saved: ${newSelection.city} at time: ${newSelection.timestamp}`);
 
 
     res.status(200).json({
