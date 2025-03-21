@@ -1,0 +1,17 @@
+{
+    "plugins": ["jest"],
+    "extends": ["plugin:jest/recommended"],
+    "env": {
+      "jest": true,
+      "node": true,
+      "browser": true
+    },
+    "overrides": [
+        {
+          "files": ["**/*.test.js", "**/*.spec.js"],
+          "env": {
+            "jest": true
+          }
+        }
+      ]
+}

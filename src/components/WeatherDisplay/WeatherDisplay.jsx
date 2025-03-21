@@ -25,8 +25,11 @@ function WeatherDisplay({ data }) {
     cloudy: cloudyAnimation,
     rain: rainAnimation,
     snow: snowAnimation,
+    sleet: snowAnimation,
     fog: fogAnimation,
     "cloudy-with-sunny-intervals": cloudyWithSunAnimation,
+    "partly-cloudy": cloudyWithSunAnimation,
+    "light-rain": rainAnimation
   };
 
   // FOr each day, I created an object with the date, weekday, and forecasts for each time period
@@ -34,7 +37,7 @@ function WeatherDisplay({ data }) {
 
   for (let forecast of data.forecastTimestamps) {
     const date = new Date(forecast.forecastTimeUtc);
-    const day = date.toISOString().split("T")[0];
+    const day = date.toLocaleDateString("en-US", { month: "long", day: "numeric" });
     const hour = date.getUTCHours();
     const timePeriod = getDayPeriod(hour);
     const timestamp = date.getTime();
@@ -115,10 +118,11 @@ function WeatherDisplay({ data }) {
   });
 
   const fiveDayForecast = Object.values(processedData).slice(0, 5);
+  console.log(fiveDayForecast);
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center mb-3 p-3 text-primary-emphasis">
+      <h2 className="text-center mb-3 p-3 text-primary-emphasis fw-semibold">
         5-Day Weather Forecast for {areaName}, {countryName}
       </h2>
       <div className="row">
@@ -127,12 +131,16 @@ function WeatherDisplay({ data }) {
             <div className="card mb-4 shadow-sm border-primary flex-fill text-primary-emphasis">
               <div className="card-body text-center bg-light weather-card">
                 <div className="d-flex justify-content-between">
-                  <h5 className="text-left date">
-                    {day.date} <br />
+                  <div className="date-weekday">
+                    <h5 className="weekday">
                     {day.weekday}
-                  </h5>
+                    </h5>
+                    <h5 className="date">
+                      {day.date}
+                    </h5>
+                  </div>
                   <h4 className="text-primary temperature">
-                    {day.currentForecast ? Math.round(day.currentForecast.temperature) : "N/A"} °C
+                    {day.currentForecast ? Math.round(day.forecasts.Day.temperature) : "N/A"} °C
                   </h4>
                 </div>
 
@@ -148,7 +156,7 @@ function WeatherDisplay({ data }) {
                   />
                 </div>
 
-                <p className="card-text">
+                <p className="card-text condition-code">
                   {day.currentForecast ? day.currentForecast.conditionCode : "N/A"}
                 </p>
                 <div className=" text-primary-emphasis wind-humidity">

@@ -50,4 +50,22 @@
       max-width: 400px;
     }
 
+    .most-searched-names {
+      font-weight: 600;
+      font-size: 25px;
+      padding-bottom: 10px;
+    }
+
+    .most-searched-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .most-searched-button {
+      font-weight: 600;
+      font-size: 17px;
+      width: 200px;
+    }
+
 }

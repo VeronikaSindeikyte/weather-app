@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import ThreeCitiesSelect from "./ThreeCitiesSelect";
@@ -20,7 +22,7 @@ describe("ThreeCitiesSelect Component", () => {
     expect(screen.getByLabelText("Klaipėda")).toBeInTheDocument();
   });
 
-  test("selecting a city updates state and calls handlers", () => {
+  test("selecting a city updates selected City state and calls handlers", () => {
     render(
       <ThreeCitiesSelect
         onSearch={mockOnSearch}

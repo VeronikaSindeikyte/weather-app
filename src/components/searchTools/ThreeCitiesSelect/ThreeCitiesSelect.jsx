@@ -20,7 +20,7 @@ const ThreeCitiesSelect = ({ onSearch, selectedCity, setSelectedCity }) => {
     };
 
     return (
-        <div className="d-flex align-items-center justify-content-center p-3 select-city-btns">
+        <div className="d-flex align-items-center justify-content-center p-3  select-city-btns">
             <div className="btn-group" role="group" aria-label="City select group">
                 <input
                     type="radio"

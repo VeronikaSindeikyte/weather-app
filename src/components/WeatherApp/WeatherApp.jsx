@@ -127,12 +127,12 @@ function WeatherApp() {
 
       {mostSearchedCities.length > 0 && (
         <div className="most-searched mt-3">
-          <h5>Your Most Searched Cities:</h5>
-          <div className="d-flex justify-content-center text-center">
+          <h5 className='text-primary-emphasis most-searched-names'>Your Most Searched Cities:</h5>
+          <div className="d-flex justify-content-center text-center most-searched-buttons">
             {mostSearchedCities.map((city, index) => (
               <button
                 key={index}
-                className="btn btn-outline-primary mx-2"
+                className="btn btn-outline-light mx-2 text-primary-emphasis most-searched-button"
                 onClick={() => handleCitySelection(city)}
               >
                 {city}

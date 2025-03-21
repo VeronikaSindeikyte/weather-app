@@ -88,10 +88,10 @@ const DropdownMenu = ({ onSearch, fetchSelectedCity, selectedCity, setSelectedCi
     };
 
     return (
-        <div className="d-flex align-items-center justify-content-center p-3 select-city-btns">
-            <div className="dropdown me-3 position-relative">
+        <div className="d-flex align-items-center justify-content-center p-3">
+            <div className="dropdown me-3 position-relative select-city-btns">
                 <button
-                    className="btn btn-primary dropdown-toggle"
+                    className="btn btn-primary dropdown-toggle text-primary-emphasis dropdown-menu-btn"
                     type="button"
                     onClick={handleDropdownToggle}
                 >
