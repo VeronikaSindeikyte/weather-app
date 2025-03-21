@@ -25,6 +25,15 @@
         flex-wrap: wrap;
         justify-content: space-around;
         margin-top: 1rem;
+        gap: 10px;
+    }
+
+    .wind, .humidity {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 5px;
+        font-weight: 600;
     }
 }
 
