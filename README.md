@@ -37,9 +37,12 @@ A weather forecast application that provides 5-day weather forecasts for cities 
 - **User Interaction Tracking**:
   - Search history saved to localStorage
   - City selection events logged in backend console
+
   ![backendLog](/documentationPhotos/backendLog.png)
+
   - User search data (city and timestamp) stored in MongoDB
-  ![MongoDB](/documentationPhotos/mongoDB.png.png)
+
+  ![MongoDB](/documentationPhotos/mongoDB.png)
 
 ## Technologies Used 
 
@@ -175,6 +178,7 @@ Key styling features include:
 ```
 weather-app/
 ├── backend/                         # Backend files: server.js, CitySelectionMode.js, .env
+├── documentationPhotos/             # Project prinscreens for Documentation
 ├── node_modules/                    # Backend dependencies
 ├── public/                          # Static files
 ├── src/
